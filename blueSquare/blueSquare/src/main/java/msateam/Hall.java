@@ -24,6 +24,17 @@ public class Hall  {
 
     @PostPersist
     public void onPostPersist(){
+        
+
+        //////////////////////////////
+        // Musical 테이블 Insert 후 수행
+        //////////////////////////////
+
+        // 기본값 셋팅
+        lastAction = "register";    // Insert는 항상 register
+        status = "available";       // 최초 등록시 항상 이용가능
+
+        // MusicalRegistered Event 발생
         MusicalRegistered musicalRegistered = new MusicalRegistered();
         BeanUtils.copyProperties(this, musicalRegistered);
         musicalRegistered.publishAfterCommit();
@@ -31,13 +42,27 @@ public class Hall  {
     }
     @PostUpdate
     public void onPostUpdate(){
-        SeatReserved seatReserved = new SeatReserved();
-        BeanUtils.copyProperties(this, seatReserved);
-        seatReserved.publishAfterCommit();
 
-        SeatCancelled seatCancelled = new SeatCancelled();
-        BeanUtils.copyProperties(this, seatCancelled);
-        seatCancelled.publishAfterCommit();
+        
+        /////////////////////////////
+        // Musical 테이블 Update 후 수행
+        /////////////////////////////
+
+        System.out.println("lastAction : " + lastAction);
+
+        // SeatReserved Event 발생
+        if(lastAction.equals("reserved")) {
+            SeatReserved seatReserved = new SeatReserved();
+            BeanUtils.copyProperties(this, seatReserved);
+            seatReserved.publishAfterCommit();
+        }
+
+        // RoomCancelled Event 발생
+        if(lastAction.equals("cancelled")) {
+            SeatCancelled seatCancelled = new SeatCancelled();
+            BeanUtils.copyProperties(this, seatCancelled);
+            seatCancelled.publishAfterCommit();
+        }
 
     }
     @PrePersist
