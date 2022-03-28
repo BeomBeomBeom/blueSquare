@@ -22,6 +22,12 @@ public class Payment  {
 
     @PostPersist
     public void onPostPersist(){
+        
+        ////////////////////////////
+        // 결제 승인 된 경우
+        ////////////////////////////
+
+        // 이벤트 발행 -> PaymentApproved
         PaymentApproved paymentApproved = new PaymentApproved();
         BeanUtils.copyProperties(this, paymentApproved);
         paymentApproved.publishAfterCommit();
@@ -29,6 +35,12 @@ public class Payment  {
     }
     @PostUpdate
     public void onPostUpdate(){
+        
+        //////////////////////
+        // 결제 취소 된 경우
+        //////////////////////
+
+        // 이벤트 발행 -> PaymentCancelled
         PaymentCancelled paymentCancelled = new PaymentCancelled();
         BeanUtils.copyProperties(this, paymentCancelled);
         paymentCancelled.publishAfterCommit();
