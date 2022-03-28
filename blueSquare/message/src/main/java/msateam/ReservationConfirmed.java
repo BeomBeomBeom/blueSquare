@@ -8,6 +8,10 @@ public class ReservationConfirmed extends AbstractEvent {
     private String status;
     private Long payId;
 
+    public ReservationConfirmed(){
+        super();
+    }
+    
     public Long getRsvId() {
         return rsvId;
     }
