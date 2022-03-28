@@ -24,7 +24,7 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationConfirmed_ConfirmReserve(@Payload ReservationConfirmed reservationConfirmed){
         
-        if(reservationConfirmed.isMe()){
+        if(reservationConfirmed.validate()){
 
             ////////////////////////////////////////////////////////////////////
             // 예약 확정 시 -> Seat의 status => reserved, lastAction => reserved
@@ -43,7 +43,7 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationCancelled_Cancel(@Payload ReservationCancelled reservationCancelled){
 
-        if(reservationCancelled.isMe()){
+        if(reservationCancelled.validate()){
 
             // 예약 취소 시 -> seat의 status => available, lastAction => cancelled
             System.out.println("##### listener Cancel : " + reservationCancelled.toJson());
