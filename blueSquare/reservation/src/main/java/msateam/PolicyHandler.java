@@ -34,8 +34,6 @@ public class PolicyHandler{
             updateResvationStatus(rsvId, "reserved", payId); // Status Update
 
         }
-
-        }
     }
 
     @StreamListener(KafkaProcessor.INPUT)
@@ -74,7 +72,7 @@ public class PolicyHandler{
 
         // DB Update
         reservationRepository.save(reservation);
-
+    }
 }
 
 
