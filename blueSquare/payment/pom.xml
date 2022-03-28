@@ -8,10 +8,10 @@
 		<version>2.1.9.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>airbnb</groupId>
-	<artifactId>message</artifactId>
+	<groupId>blueSquare</groupId>
+	<artifactId>payment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>message</name>
+	<name>payment</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
