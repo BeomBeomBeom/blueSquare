@@ -24,7 +24,6 @@ public class PolicyHandler{
     public void wheneverPaymentApproved_ConfirmReserve(@Payload PaymentApproved paymentApproved){
 
         if(paymentApproved.isMe()){
-<<<<<<< HEAD
 
             // 결제 완료 시 -> Status -> reserved
             System.out.println("##### listener ConfirmReserve : " + paymentApproved.toJson());
@@ -35,19 +34,6 @@ public class PolicyHandler{
             updateResvationStatus(rsvId, "reserved", payId); // Status Update
 
         }
-=======
-
-            ///////////////////////////////////////
-            // 결제 완료 시 -> Status -> reserved
-            ///////////////////////////////////////
-            System.out.println("##### listener ConfirmReserve : " + paymentApproved.toJson());
-
-            long rsvId = paymentApproved.getRsvId(); // 결제 완료된 rsvId
-            long payId = paymentApproved.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
-            //long seatId = paymentApproved.getSeatId();
-
-            updateResvationStatus(rsvId, "reserved", payId); // Status Update
->>>>>>> refs/remotes/origin/main
 
         }
     }
@@ -55,7 +41,6 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentCancelled_ConfirmCancel(@Payload PaymentCancelled paymentCancelled){
 
-<<<<<<< HEAD
         
         if(paymentCancelled.isMe()){
 
@@ -67,21 +52,6 @@ public class PolicyHandler{
             long payId = paymentCancelled.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
 
             updateResvationStatus(rsvId, "cancelled", payId ); // Status Update
-=======
-        if(paymentCancelled.isMe()){
-            ///////////////////////////////////////////
-            // 결제 취소 완료 시 -> Status -> Cancelled
-            ///////////////////////////////////////////
-            System.out.println("##### listener ConfirmCancel : " + paymentCancelled.toJson());
-
-            long rsvId = paymentCancelled.getRsvId(); // 취소된 rsvId
-            long payId = paymentCancelled.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
-            //long seatId = paymentCancelled.getSeatId();
-
-            updateResvationStatus(rsvId, "cancelled", payId ); // Status Update
-
-        }
->>>>>>> refs/remotes/origin/main
 
         }
     }
