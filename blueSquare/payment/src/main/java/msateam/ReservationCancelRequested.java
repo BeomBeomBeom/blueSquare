@@ -8,6 +8,10 @@ public class ReservationCancelRequested extends AbstractEvent {
     private String status;
     private Long payId;
 
+    public ReservationCancelRequested(){
+        super();
+    }
+    
     public Long getRsvId() {
         return rsvId;
     }
