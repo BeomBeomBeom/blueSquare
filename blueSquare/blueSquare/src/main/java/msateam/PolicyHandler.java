@@ -1,20 +1,25 @@
 package msateam;
 
 import msateam.config.kafka.KafkaProcessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Optional;
+
+//import com.fasterxml.jackson.databind.DeserializationFeature;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
-import java.util.*;
+//import java.util.*;
 
 @Service
 public class PolicyHandler{
-    @Autowired HallRepository hallRepository;
+    
+    @Autowired
+    private HallRepository hallRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void whatever(@Payload String eventString){}
+    public void onStringEventListener(@Payload String eventString){}
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationConfirmed_ConfirmReserve(@Payload ReservationConfirmed reservationConfirmed){
