@@ -1,8 +1,11 @@
 package msateam;
 
 import msateam.config.kafka.KafkaProcessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Optional;
+
+//import com.fasterxml.jackson.databind.DeserializationFeature;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -10,47 +13,48 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PolicyHandler{
-    @Autowired ReservationRepository reservationRepository;
+    
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void whatever(@Payload String eventString){}
+    public void onStringEventListener(@Payload String eventString){}
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentApproved_ConfirmReserve(@Payload PaymentApproved paymentApproved){
 
-        if(!paymentApproved.validate()) return;
+        if(paymentApproved.isMe()){
 
-        System.out.println("\n\n##### listener ConfirmReserve : " + paymentApproved.toJson() + "\n\n");
+            ///////////////////////////////////////
+            // 결제 완료 시 -> Status -> reserved
+            ///////////////////////////////////////
+            System.out.println("##### listener ConfirmReserve : " + paymentApproved.toJson());
 
-        
-// ddd
-        // 
-        Reservation reservation = new Reservation();
+            long rsvId = paymentApproved.getRsvId(); // 결제 완료된 rsvId
+            long payId = paymentApproved.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
+            long SeatId = paymentPrroved.getSeatId();
 
-        reservation.setPayId(paymentApproved.getPayId());
-        reservation.setRsvId(paymentApproved.getRsvId());
-        reservation.setSeatId(paymentApproved.getSeatId());
-        reservation.setStatus(paymentApproved.getStatus());
+            updateResvationStatus(rsvId, "reserved", payId); // Status Update
 
-        reservationRepository.save(reservation);
-
+        }
     }
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentCancelled_ConfirmCancel(@Payload PaymentCancelled paymentCancelled){
 
-        if(!paymentCancelled.validate()) return;
+        if(paymentCancelled.isMe()){
+            ///////////////////////////////////////////
+            // 결제 취소 완료 시 -> Status -> Cancelled
+            ///////////////////////////////////////////
+            System.out.println("##### listener ConfirmCancel : " + paymentCancelled.toJson());
 
-        System.out.println("\n\n##### listener ConfirmCancel : " + paymentCancelled.toJson() + "\n\n");
+            long rsvId = paymentCancelled.getRsvId(); // 취소된 rsvId
+            long payId = paymentCancelled.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
+            long SeatId = paymentCancelled.getSeatId();
 
-        Reservation reservation = new Reservation();
-        
-        reservation.setPayId(paymentCancelled.getPayId());
-        reservation.setRsvId(paymentCancelled.getRsvId());
-        reservation.setSeatId(paymentCancelled.getSeatId());
-        reservation.setStatus(paymentCancelled.getStatus());
+            updateResvationStatus(rsvId, "cancelled", payId ); // Status Update
 
-        reservationRepository.save(reservation);
+        }
 
     }
 
