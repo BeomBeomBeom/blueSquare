@@ -45,7 +45,7 @@ public class Reservation  {
             //////////////////////////////
             msateam.external.Payment payment = new msateam.external.Payment();
             payment.setRsvId(this.getRsvId());
-            payment.setseatId(this.getseatId());
+            payment.setseatId(this.getSeatId());
             payment.setStatus("paid");
             ReservationApplication.applicationContext.getBean(msateam.external.PaymentService.class)
                 .approvePayment(payment);
