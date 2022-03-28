@@ -26,8 +26,12 @@ public class PolicyHandler{
         
 
         // Sample Logic //
-        // Payment payment = new Payment();
-        // paymentRepository.save(payment);
+        Payment payment = new Payment();
+        payment.setPayId(reservationCancelRequested.getPayId());
+        payment.setRsvId(reservationCancelRequested.getRsvId());
+        payment.setSeatId(reservationCancelRequested.getSeatId());
+        payment.setStatus(reservationCancelRequested.getStatus());
+        paymentRepository.save(payment);
 
     }
 

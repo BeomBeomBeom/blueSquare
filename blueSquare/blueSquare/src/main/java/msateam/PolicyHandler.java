@@ -23,11 +23,11 @@ public class PolicyHandler{
         System.out.println("\n\n##### listener ConfirmReserve : " + reservationConfirmed.toJson() + "\n\n");
 
 
-        
-
-        // Sample Logic //
-        // Hall hall = new Hall();
-        // hallRepository.save(hall);
+        Hall hall = new Hall();
+        hall.setSeatId(reservationConfirmed.getSeatId());
+        hall.setStatus(reservationConfirmed.getStatus());
+        hall.setLastAction(reservationConfirmed.getTimestamp().toString());
+        hallRepository.save(hall);
 
     }
 
@@ -39,11 +39,12 @@ public class PolicyHandler{
         System.out.println("\n\n##### listener Cancel : " + reservationCancelled.toJson() + "\n\n");
 
 
-        
+        Hall hall = new Hall();
+        hall.setSeatId(reservationCancelled.getSeatId());
+        hall.setStatus(reservationCancelled.getStatus());
+        hall.setLastAction(reservationCancelled.getTimestamp().toString());
+        hallRepository.save(hall);
 
-        // Sample Logic //
-        // Hall hall = new Hall();
-        // hallRepository.save(hall);
 
     }
 

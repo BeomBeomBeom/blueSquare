@@ -26,8 +26,9 @@ public class PolicyHandler{
         
 
         // Sample Logic //
-        // Message message = new Message();
-        // messageRepository.save(message);
+        Message message = new Message();
+        message.setSeatId(reservationConfirmed.getSeatId());
+        messageRepository.save(message);
 
     }
 
@@ -42,8 +43,9 @@ public class PolicyHandler{
         
 
         // Sample Logic //
-        // Message message = new Message();
-        // messageRepository.save(message);
+        Message message = new Message();
+        message.setSeatId(reservationCancelled.getSeatId());
+        messageRepository.save(message);
 
     }
 

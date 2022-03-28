@@ -22,12 +22,17 @@ public class PolicyHandler{
 
         System.out.println("\n\n##### listener ConfirmReserve : " + paymentApproved.toJson() + "\n\n");
 
-
         
+// ddd
+        // 
+        Reservation reservation = new Reservation();
 
-        // Sample Logic //
-        // Reservation reservation = new Reservation();
-        // reservationRepository.save(reservation);
+        reservation.setPayId(paymentApproved.getPayId());
+        reservation.setRsvId(paymentApproved.getRsvId());
+        reservation.setSeatId(paymentApproved.getSeatId());
+        reservation.setStatus(paymentApproved.getStatus());
+
+        reservationRepository.save(reservation);
 
     }
 
@@ -38,12 +43,14 @@ public class PolicyHandler{
 
         System.out.println("\n\n##### listener ConfirmCancel : " + paymentCancelled.toJson() + "\n\n");
 
-
+        Reservation reservation = new Reservation();
         
+        reservation.setPayId(paymentCancelled.getPayId());
+        reservation.setRsvId(paymentCancelled.getRsvId());
+        reservation.setSeatId(paymentCancelled.getSeatId());
+        reservation.setStatus(paymentCancelled.getStatus());
 
-        // Sample Logic //
-        // Reservation reservation = new Reservation();
-        // reservationRepository.save(reservation);
+        reservationRepository.save(reservation);
 
     }
 
