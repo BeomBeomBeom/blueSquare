@@ -19,7 +19,7 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationConfirmed_SendConfirmMsg(@Payload ReservationConfirmed reservationConfirmed){
 
-        if(reservationConfirmed.isMe()){
+        if(reservationConfirmed.validate()){
 
             // 예약 확정 시 
             System.out.println("##### listener SendConfirmMsg : " + reservationConfirmed.toJson());
@@ -37,7 +37,7 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationCancelled_SendCancelMsg(@Payload ReservationCancelled reservationCancelled){
 
-        if(reservationCancelled.isMe()){
+        if(reservationCancelled.validate()){
 
             // 예약 취소 시
             System.out.println("##### listener SendCancelMsg : " + reservationCancelled.toJson());
