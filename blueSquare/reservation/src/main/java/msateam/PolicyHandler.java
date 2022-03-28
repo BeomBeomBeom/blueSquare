@@ -44,7 +44,7 @@ public class PolicyHandler{
 
             long rsvId = paymentApproved.getRsvId(); // 결제 완료된 rsvId
             long payId = paymentApproved.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
-            long seatId = paymentApproved.getSeatId();
+            //long seatId = paymentApproved.getSeatId();
 
             updateResvationStatus(rsvId, "reserved", payId); // Status Update
 >>>>>>> refs/remotes/origin/main
@@ -76,7 +76,7 @@ public class PolicyHandler{
 
             long rsvId = paymentCancelled.getRsvId(); // 취소된 rsvId
             long payId = paymentCancelled.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
-            long SeatId = paymentCancelled.getSeatId();
+            //long seatId = paymentCancelled.getSeatId();
 
             updateResvationStatus(rsvId, "cancelled", payId ); // Status Update
 
