@@ -31,8 +31,33 @@ public class Reservation  {
 
         msateam.external.Hall hall = new msateam.external.Hall();
         // mappings goes here
-        ReservationApplication.applicationContext.getBean(msateam.external.HallService.class)
-            .checkReservation(hall);
+        
+        // 해당 좌석이 Available한 상태인지 체크
+        boolean result = ReservationApplication.applicationContext.getBean(msateam.external.HallService.class)
+                        .checkReservation(hall);
+        System.out.println("######## Check Result : " + result);
+        
+        if(result) {
+            
+            // 예약 가능한 상태인 경우(Available)
+            //////////////////////////////
+            // PAYMENT 결제 진행 (POST방식)
+            //////////////////////////////
+            msateam.external.Payment payment = new msateam.external.Payment();
+            payment.setRsvId(this.getRsvId());
+            payment.setseatId(this.getseatId());
+            payment.setStatus("paid");
+            ReservationApplication.applicationContext.getBean(msateam.external.PaymentService.class)
+                .approvePayment(payment);
+
+            /////////////////////////////////////
+            // 이벤트 발행 --> ReservationCreated
+            /////////////////////////////////////
+            ReservationCreated reservationCreated = new ReservationCreated();
+            BeanUtils.copyProperties(this, reservationCreated);
+            reservationCreated.publishAfterCommit();
+            
+        }
 
     }
     @PostUpdate
