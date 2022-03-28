@@ -18,37 +18,49 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationConfirmed_SendConfirmMsg(@Payload ReservationConfirmed reservationConfirmed){
 
-        if(!reservationConfirmed.validate()) return;
+        if(reservationConfirmed.isMe()){
 
-        System.out.println("\n\n##### listener SendConfirmMsg : " + reservationConfirmed.toJson() + "\n\n");
+            // 예약 확정 시 
+            System.out.println("##### listener SendConfirmMsg : " + reservationConfirmed.toJson());
 
+            // seatId 추출
+            long seatId = reservationConfirmed.getSeatId(); // 예약된 좌석 
+            String msgString = "좌석 [ " + seatId + "] 예약이 완료 되었습니다.";
 
-        
-
-        // Sample Logic //
-        Message message = new Message();
-        message.setSeatId(reservationConfirmed.getSeatId());
-        messageRepository.save(message);
+            // 메시지 전송
+            sendMsg(roomId, msgString);
+        }
 
     }
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationCancelled_SendCancelMsg(@Payload ReservationCancelled reservationCancelled){
 
-        if(!reservationCancelled.validate()) return;
+        if(reservationCancelled.isMe()){
 
-        System.out.println("\n\n##### listener SendCancelMsg : " + reservationCancelled.toJson() + "\n\n");
+            // 예약 취소 시
+            System.out.println("##### listener SendCancelMsg : " + reservationCancelled.toJson());
 
+            // seatId 추출
+            long seatId = reservationCancelled.getSeatId(); // 취소된 seatId
+            String msgString = "좌석 [ " + seatId + "] 예약이 취소 되었습니다.";
 
-        
+            // 메시지 전송
+            sendMsg(roomId, msgString);
 
-        // Sample Logic //
-        Message message = new Message();
-        message.setSeatId(reservationCancelled.getSeatId());
-        messageRepository.save(message);
-
+        }
     }
+    
+    private void sendMsg(long seatId, String msgString) {
 
+        // roomId 룸에 대해 msgString으로 SMS를 쌓는다
+        Message msg = new Message();
+        msg.setSeatId(seatId);
+        msg.setContent(msgString);
+
+        // DB Insert
+        messageRepository.save(msg);
+    }
 
 }
 

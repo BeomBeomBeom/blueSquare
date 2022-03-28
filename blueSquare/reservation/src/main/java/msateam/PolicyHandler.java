@@ -18,43 +18,58 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentApproved_ConfirmReserve(@Payload PaymentApproved paymentApproved){
 
-        if(!paymentApproved.validate()) return;
+        if(paymentApproved.isMe()){
 
-        System.out.println("\n\n##### listener ConfirmReserve : " + paymentApproved.toJson() + "\n\n");
+            // 결제 완료 시 -> Status -> reserved
+            System.out.println("##### listener ConfirmReserve : " + paymentApproved.toJson());
 
-        
-// ddd
-        // 
-        Reservation reservation = new Reservation();
+            long rsvId = paymentApproved.getRsvId(); // 결제 완료된 rsvId
+            long payId = paymentApproved.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
 
-        reservation.setPayId(paymentApproved.getPayId());
-        reservation.setRsvId(paymentApproved.getRsvId());
-        reservation.setSeatId(paymentApproved.getSeatId());
-        reservation.setStatus(paymentApproved.getStatus());
+            updateResvationStatus(rsvId, "reserved", payId); // Status Update
 
-        reservationRepository.save(reservation);
+        }
 
     }
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentCancelled_ConfirmCancel(@Payload PaymentCancelled paymentCancelled){
 
-        if(!paymentCancelled.validate()) return;
-
-        System.out.println("\n\n##### listener ConfirmCancel : " + paymentCancelled.toJson() + "\n\n");
-
-        Reservation reservation = new Reservation();
         
-        reservation.setPayId(paymentCancelled.getPayId());
-        reservation.setRsvId(paymentCancelled.getRsvId());
-        reservation.setSeatId(paymentCancelled.getSeatId());
-        reservation.setStatus(paymentCancelled.getStatus());
+        if(paymentCancelled.isMe()){
 
+            // 결제 취소 완료 시 -> Status -> Cancelled
+
+            System.out.println("##### listener ConfirmCancel : " + paymentCancelled.toJson());
+
+            long rsvId = paymentCancelled.getRsvId(); // 취소된 rsvId
+            long payId = paymentCancelled.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
+
+            updateResvationStatus(rsvId, "cancelled", payId ); // Status Update
+
+        }
+    }
+
+    
+    private void updateResvationStatus(long rsvId, String status, long payId)     {
+
+        // seatId 룸 데이터의 status, lastAction 수정
+
+        // Seat 테이블에서 seatId의 Data 조회 -> seat
+        Optional<Reservation> res = reservationRepository.findById(rsvId);
+        Reservation reservation = res.get();
+
+        // seat 값 수정
+        reservation.setStatus(status); // status 수정 
+        reservation.setPayId(payId); // payId 수정
+
+        System.out.println("Edited status     : " + reservation.getStatus());
+        System.out.println("Edited payId     : " + reservation.getPayId());
+
+        // DB Update
         reservationRepository.save(reservation);
 
     }
-
-
 }
 
 
