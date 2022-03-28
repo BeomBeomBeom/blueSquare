@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/15603058/119284989-fefe2580-bc7b-11eb-99ca-7a9e4183c16f.jpg)
+![bluesquare](https://user-images.githubusercontent.com/12591322/160337828-e54027bd-d17c-4512-96d6-dd3094c4e246.gif)
 
 # 숙소예약(AirBnB)
 
