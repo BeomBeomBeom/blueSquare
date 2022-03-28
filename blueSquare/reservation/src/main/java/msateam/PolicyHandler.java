@@ -75,7 +75,6 @@ public class PolicyHandler{
         // DB Update
         reservationRepository.save(reservation);
 
-    }
 }
 
 
