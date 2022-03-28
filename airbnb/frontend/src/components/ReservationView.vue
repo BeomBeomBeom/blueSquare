@@ -2,7 +2,7 @@
 
 <v-data-table
     :headers="headers"
-    :items="roomView"
+    :items="reservationView"
     :items-per-page="5"
     class="elevation-1"
   ></v-data-table>
@@ -13,7 +13,7 @@
   const axios = require('axios').default;
 
   export default {
-    name: 'RoomView',
+    name: 'ReservationView',
     props: {
       value: Object,
       editMode: Boolean,
@@ -23,12 +23,20 @@
         headers: [
             { text: "id", value: "id" },
         ],
-        roomView : [],
+        reservationView : [],
     }),
     async created() {
-      var temp = await axios.get(axios.backend + '/roomviews')
+      var temp = await axios.get(axios.backend + '/reservationViews')
 
-      this.roomView = temp.data._embedded.roomviews;
+ = temp.data._embedded.reservationViews;
+
+    },
+    methods: {
+    }
+  }
+</script>
+
+ = temp.data._embedded.reservationViews;
 
     },
     methods: {

@@ -57,7 +57,7 @@ public class Hall  {
             seatReserved.publishAfterCommit();
         }
 
-        // RoomCancelled Event 발생
+        // HallCancelled Event 발생
         if(lastAction.equals("cancelled")) {
             SeatCancelled seatCancelled = new SeatCancelled();
             BeanUtils.copyProperties(this, seatCancelled);

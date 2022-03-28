@@ -7,12 +7,12 @@ Vue.use(Router);
 
 import PaymentManager from "./components/PaymentManager"
 
-import RoomManager from "./components/RoomManager"
+import HallManager from "./components/HallManager"
 import ReviewManager from "./components/ReviewManager"
 
 import ReservationManager from "./components/ReservationManager"
 
-import RoomView from "./components/RoomView"
+import ReservationView from "./components/ReservationView"
 import MessageManager from "./components/MessageManager"
 
 export default new Router({
@@ -26,9 +26,9 @@ export default new Router({
             },
 
             {
-                path: '/Room',
-                name: 'RoomManager',
-                component: RoomManager
+                path: '/Hall',
+                name: 'HallManager',
+                component: HallManager
             },
             {
                 path: '/Review',
@@ -43,9 +43,9 @@ export default new Router({
             },
 
             {
-                path: '/RoomView',
-                name: 'RoomView',
-                component: RoomView
+                path: '/ReservationView',
+                name: 'ReservationView',
+                component: ReservationView
             },
             {
                 path: '/Message',

@@ -29,7 +29,7 @@ public class PolicyHandler{
             String msgString = "좌석 [ " + seatId + "] 예약이 완료 되었습니다.";
 
             // 메시지 전송
-            sendMsg(roomId, msgString);
+            sendMsg(seatId, msgString);
         }
 
     }
@@ -47,14 +47,14 @@ public class PolicyHandler{
             String msgString = "좌석 [ " + seatId + "] 예약이 취소 되었습니다.";
 
             // 메시지 전송
-            sendMsg(roomId, msgString);
+            sendMsg(seatId, msgString);
 
         }
     }
     
     private void sendMsg(long seatId, String msgString) {
 
-        // roomId 룸에 대해 msgString으로 SMS를 쌓는다
+        // seatId 룸에 대해 msgString으로 SMS를 쌓는다
         Message msg = new Message();
         msg.setSeatId(seatId);
         msg.setContent(msgString);

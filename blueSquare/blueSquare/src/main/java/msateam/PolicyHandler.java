@@ -27,14 +27,14 @@ public class PolicyHandler{
         if(reservationConfirmed.isMe()){
 
             ////////////////////////////////////////////////////////////////////
-            // 예약 확정 시 -> Room의 status => reserved, lastAction => reserved
+            // 예약 확정 시 -> Seat의 status => reserved, lastAction => reserved
             ////////////////////////////////////////////////////////////////////
 
             System.out.println("##### listener ConfirmReserve : " + reservationConfirmed.toJson());
 
-            long seatId = reservationConfirmed.getSeatId(); // 삭제된 리뷰의 RoomID
+            long seatId = reservationConfirmed.getSeatId(); // 삭제된 리뷰의 SeatID
 
-            updateRoomStatus(seatId, "reserved", "reserved"); // Status Update
+            updateSeatStatus(seatId, "reserved", "reserved"); // Status Update
 
         }
 
@@ -60,19 +60,19 @@ public class PolicyHandler{
             // 예약 취소 시 -> seat의 status => available, lastAction => cancelled
             System.out.println("##### listener Cancel : " + reservationCancelled.toJson());
 
-            long seatId = reservationCancelled.getSeatId(); // 삭제된 리뷰의 RoomID
+            long seatId = reservationCancelled.getSeatId(); // 삭제된 리뷰의 SeatID
 
-            updateRoomStatus(seatId, "available", "cancelled"); // Status Update
+            updateSeatStatus(seatId, "available", "cancelled"); // Status Update
         }
 
 
     }
     
-    private void updateRoomStatus(long seatId, String status, String lastAction)     {
+    private void updateSeatStatus(long seatId, String status, String lastAction)     {
 
         // seatId 데이터의 status, lastAction 수정
 
-        // Room 테이블에서 roomId의 Data 조회 -> room
+        // Seat 테이블에서 seatId의 Data 조회 -> seat
         Optional<Hall> res = hallRepository.findById(seatId);
         Hall hall = res.get();
 

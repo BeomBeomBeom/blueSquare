@@ -30,10 +30,10 @@ public class ReservationViewViewHandler {
             // view 객체 생성
             ReservationView reservationView = new ReservationView();
             // view 객체에 이벤트의 Value 를 set 함
-            reservationView.setId(musicalRegistered.getRoomId());
+            reservationView.setId(musicalRegistered.getSeatId());
             reservationView.setDesc(musicalRegistered.getDesc());
             reservationView.setReviewCnt(musicalRegistered.getReviewCnt());
-            reservationView.setRoomStatus(musicalRegistered.getStatus());
+            reservationView.setSeatStatus(musicalRegistered.getStatus());
             // view 레파지 토리에 save
             reservationViewRepository.save(reservationView);
 
@@ -52,7 +52,7 @@ public class ReservationViewViewHandler {
         try {
             if (!reservationConfirmed.validate()) return;
                 // view 객체 조회
-            Optional<ReservationView> reservationViewOptional = reservationViewRepository.findById(reservationConfirmed.getRoomId());
+            Optional<ReservationView> reservationViewOptional = reservationViewRepository.findById(reservationConfirmed.getSeatId());
 
             if( reservationViewOptional.isPresent()) {
                  ReservationView reservationView = reservationViewOptional.get();
@@ -146,7 +146,7 @@ public class ReservationViewViewHandler {
         try {
             if (!musicalDeleted.validate()) return;
             // view 레파지 토리에 삭제 쿼리
-            reservationViewRepository.deleteById(musicalDeleted.getRoomId());
+            reservationViewRepository.deleteById(musicalDeleted.getSeatId());
         }catch (Exception e){
             e.printStackTrace();
         }
