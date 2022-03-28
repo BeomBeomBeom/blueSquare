@@ -32,7 +32,7 @@ public class PolicyHandler{
 
             long rsvId = paymentApproved.getRsvId(); // 결제 완료된 rsvId
             long payId = paymentApproved.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
-            long SeatId = paymentPrroved.getSeatId();
+            long seatId = paymentApproved.getSeatId();
 
             updateResvationStatus(rsvId, "reserved", payId); // Status Update
 
