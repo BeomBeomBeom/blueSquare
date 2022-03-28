@@ -43,18 +43,6 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationCancelled_Cancel(@Payload ReservationCancelled reservationCancelled){
 
-        if(!reservationCancelled.validate()) return;
-
-        System.out.println("\n\n##### listener Cancel : " + reservationCancelled.toJson() + "\n\n");
-
-
-        Hall hall = new Hall();
-        hall.setSeatId(reservationCancelled.getSeatId());
-        hall.setStatus(reservationCancelled.getStatus());
-        hall.setLastAction(reservationCancelled.getTimestamp().toString());
-        hallRepository.save(hall);
-
-        
         if(reservationCancelled.isMe()){
 
             // 예약 취소 시 -> seat의 status => available, lastAction => cancelled
